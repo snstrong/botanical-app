@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from secrets.py import trefle_token, secret_key
+import requests
 
 CURR_USER_KEY = "curr_user"
 
