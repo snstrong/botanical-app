@@ -1,7 +1,9 @@
+import os
 from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
-from secrets.py import trefle_token, secret_key
+from secrets import trefle_token, secret_key
 import requests
+from models import db, connect_db
 
 CURR_USER_KEY = "curr_user"
 
@@ -20,8 +22,9 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
-##############################################################################
+#############################################################
 # User signup/login/logout
+#############################################################
 
 
 @app.before_request
@@ -46,3 +49,11 @@ def do_logout():
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
+
+#############################################################
+# Routes
+#############################################################
+
+@app.route('/')
+def show_landing_page():
+    return render_template('index.html')
