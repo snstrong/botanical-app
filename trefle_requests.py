@@ -12,6 +12,5 @@ def simple_search(token, search_term):
 
 def get_one_plant(token, plant_slug):
     """Retrieves data for a specific plant."""
-    # https://trefle.io/api/v1/species/lobelia-cardinalis?token=_aqxCyNPL9F16KUr6xINkPYqGNvZjnicOHyKYcw1ITg
     response = requests.get(f'{BASE_URL}/species/{plant_slug}', params={"token": token})
     return response.json()["data"]
