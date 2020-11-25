@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Search Results | Tendril{% endblock %}
+
+{% block content %}
+
+<h2>Search results for <em>{{search_term}}</em></h2>
+
+<div class="container-fluid"></div>
+<div class="row">
+    {% for plant in search_results %}
+
+    <div class="card col-12 col-lg-6 col-xl-4 float-left">
+        <div class="card-body">
+            <img src="{{plant.image_url}}" alt="Photo of {{plant.common_name}}"
+                class="search img-thumbnail rounded mr-4 float-left">
+            <div class="card-text">
+                <h5 class="card-title">{{plant.common_name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{plant.scientific_name}}</h6>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

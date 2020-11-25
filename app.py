@@ -4,6 +4,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from secrets import trefle_token, secret_key
 import requests
 from models import db, connect_db
+from trefle_requests import quick_search
 
 CURR_USER_KEY = "curr_user"
 
@@ -57,3 +58,9 @@ def do_logout():
 @app.route('/')
 def show_landing_page():
     return render_template('index.html')
+
+@app.route('/search')
+def get_quick_search_results():
+    search_term = request.args['term']
+    search_results = quick_search(trefle_token, search_term)
+    return render_template('search-results.html', search_term=search_term, search_results=search_results)
