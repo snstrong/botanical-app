@@ -4,7 +4,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from secrets import trefle_token, secret_key
 import requests
 from models import db, connect_db
-from trefle_requests import quick_search
+from trefle_requests import quick_search, get_one_plant
 
 CURR_USER_KEY = "curr_user"
 
@@ -61,6 +61,14 @@ def show_landing_page():
 
 @app.route('/search')
 def get_quick_search_results():
+    """Show results for single-term search."""
     search_term = request.args['term']
     search_results = quick_search(trefle_token, search_term)
     return render_template('search-results.html', search_term=search_term, search_results=search_results)
+
+@app.route('/plant/<plant_slug>')
+def get_plant_detail(plant_slug):
+    """Show data for a given plant."""
+    plant_details = get_one_plant(trefle_token, plant_slug)
+    return render_template('plant-detail.html', plant_details=plant_details)
+
