@@ -25,3 +25,30 @@ nav {
 .search-result-header em {
   font-weight: 400;
 }
+
+.card,
+.img-thumbnail {
+  border: none;
+}
+
+.img-thumbnail:hover {
+  border: 2px solid #bae357;
+}
+
+.card-title {
+  color: black;
+}
+
+.card-title:hover {
+  text-decoration: none;
+  color: #368e50;
+  font-weight: 600;
+}
+
+.card-subtitle {
+  margin-top: 0.5em;
+}
+
+.scientific-name {
+  font-style: italic;
+}

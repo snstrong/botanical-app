@@ -4,14 +4,14 @@
 {% block content %}
 <img src="{{plant_details.image_url}}" alt="Photo of {{plant_details.common_name}}"
     style="width: 50%; float: left; margin-right: 1em; margin-bottom: 1em;">
-<h1>{{plant_details.common_name}}</h1>
-<h3 class="text-muted">{{plant_details.scientific_name}}</h3>
+<h1 class="text-info">{{plant_details.common_name}}</h1>
+<h3 class="text-muted scientific-name">{{plant_details.scientific_name}}</h3>
 
-<div>
+<div id="common-names-list">
     <h4>Common Names</h4>
     {% for name in plant_details.common_names.eng%}
-    <span
-        style="background-color: #bae357; line-height: 1.5em; padding: 0.5em; margin-right: 1em; margin-bottom: 1em; border-radius: 6px;">{{name}}</span>
+    <!-- TODO: FIX TRAILING COMMA -->
+    <span>{{name}},&nbsp;</span>
     {% endfor %}
 </div>
 
