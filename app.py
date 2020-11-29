@@ -62,6 +62,9 @@ def show_landing_page():
 @app.route('/search')
 def get_quick_search_results():
     """Show results for single-term search."""
+    
+    # TODO: handle edge case: no results found
+    # TODO: check for image and provide default if null
     search_term = request.args['term']
     search_results = quick_search(trefle_token, search_term)
     return render_template('search-results.html', search_term=search_term, search_results=search_results)

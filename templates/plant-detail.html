@@ -2,6 +2,8 @@
 {% block title %}{{plant_details.scientific_name}} | Tendril{% endblock %}
 
 {% block content %}
+<!-- TODO: breadcrumbs or "back to search results" -->
+
 <img src="{{plant_details.image_url}}" alt="Photo of {{plant_details.common_name}}"
     style="width: 50%; float: left; margin-right: 1em; margin-bottom: 1em;">
 <h1 class="text-info">{{plant_details.common_name}}</h1>
@@ -9,10 +11,14 @@
 
 <div id="common-names-list">
     <h4>Common Names</h4>
-    {% for name in plant_details.common_names.eng%}
-    <!-- TODO: FIX TRAILING COMMA -->
+    <div>
+        {{ plant_details.common_names.eng|join(", ") }}
+    </div>
+
+    <!-- {% for name in plant_details.common_names.eng%}
+   
     <span>{{name}},&nbsp;</span>
-    {% endfor %}
+    {% endfor %} -->
 </div>
 
 {% endblock %}

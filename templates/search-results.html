@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Search Results | Tendril{% endblock %}
+{% block title %}{{search_term}} | Search Results | Tendril{% endblock %}
 
 {% block content %}
 
@@ -7,8 +7,9 @@
 
 <div class="container-fluid"></div>
 <div class="row">
+    <!-- TODO: handle edge case: no results found -->
+    <!-- TODO: check for image and provide default if null -->
     {% for plant in search_results %}
-
     <div class="card col-12 col-lg-6 col-xl-4 float-left">
         <div class="card-body">
             <a href="/plant/{{plant.slug}}"><img src="{{plant.image_url}}" alt="Photo of {{plant.common_name}}"
