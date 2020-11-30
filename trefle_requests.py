@@ -1,7 +1,5 @@
 """Functions for making requests to Trefle API."""
 
-# TODO: pagination - get next page of results for searches
-
 import requests
 from secrets import trefle_token
 
@@ -12,8 +10,12 @@ def quick_search(token, search_term):
     response = requests.get(f'{BASE_URL}/api/v1/species/search', params={"q": search_term, "token": token})
     return response.json()["data"]
 
-def get_next_page(token, link_to_next):
-    pass;
+def get_next_page(token, search_response):
+    if search_response.links.next:
+        response = requests.get(f'{BASE_URL}{search_response.links.next}')
+    else:
+        response = requests.get(f'{BASE_URL}{search_response.links.last}')
+    return response.json()["data"]
 
 def get_one_plant(token, plant_slug):
     """Retrieves data for a specific plant. Returns JSON response as dict."""
