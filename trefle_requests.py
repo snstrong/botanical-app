@@ -12,9 +12,9 @@ def quick_search(token, search_term):
 
 def get_next_page(token, search_response):
     if search_response.links.next:
-        response = requests.get(f'{BASE_URL}{search_response.links.next}')
+        response = requests.get(f'{BASE_URL}{search_response.links.next}', params={"token": token})
     else:
-        response = requests.get(f'{BASE_URL}{search_response.links.last}')
+        response = requests.get(f'{BASE_URL}{search_response.links.last}', params={"token": token})
     return response.json()["data"]
 
 def get_one_plant(token, plant_slug):
