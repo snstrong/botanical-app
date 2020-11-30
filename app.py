@@ -3,8 +3,10 @@ from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from secrets import trefle_token, secret_key
 import requests
-from models import db, connect_db
+from models import db, connect_db, User
 from trefle_requests import quick_search, get_one_plant
+from forms import UserAddForm, UserEditForm
+from sqlalchemy.exc import IntegrityError
 
 CURR_USER_KEY = "curr_user"
 
@@ -52,7 +54,7 @@ def do_logout():
         del session[CURR_USER_KEY]
 
 #############################################################
-# Routes
+# General Routes
 #############################################################
 
 @app.route('/')
@@ -75,3 +77,70 @@ def get_plant_detail(plant_slug):
     plant_details = get_one_plant(trefle_token, plant_slug)
     return render_template('plant-detail.html', plant_details=plant_details)
 
+#############################################################
+# User Routes
+#############################################################
+
+@app.route('/register', methods=["GET", "POST"])
+def signup():
+    """Handle user signup.
+
+    Create new user and add to DB. Redirect to home page.
+
+    If form not valid, present form.
+
+    If the there already is a user with that username: flash message
+    and re-present form.
+    """
+
+    form = UserAddForm()
+
+    if form.validate_on_submit():
+        try:
+            user = User.signup(
+                username=form.username.data,
+                password=form.password.data,
+                email=form.email.data,
+                first_name=form.first_name.data,
+                last_name=form.last_name.data
+            )
+            db.session.commit()
+
+        except IntegrityError:
+            flash("Username already taken", 'danger')
+            return render_template('register.html', form=form)
+
+        do_login(user)
+
+        return redirect("/")
+
+    else:
+        return render_template('register.html', form=form)
+
+
+# @app.route('/login', methods=["GET", "POST"])
+# def login():
+#     """Handle user login."""
+
+#     form = LoginForm()
+
+#     if form.validate_on_submit():
+#         user = User.authenticate(form.username.data,
+#                                  form.password.data)
+
+#         if user:
+#             do_login(user)
+#             flash(f"Hello, {user.username}!", "success")
+#             return redirect("/")
+
+#         flash("Invalid credentials.", 'danger')
+
+#     return render_template('login.html', form=form)
+
+
+# @app.route('/logout')
+# def logout():
+#     """Handle logout of user."""
+#     do_logout()
+#     flash('You have been logged out.', 'warning')
+#     return redirect('/login')

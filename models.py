@@ -6,14 +6,6 @@ db = SQLAlchemy()
 
 class User(db.Model):
     """User in the system."""
-    # User
-    # -
-    # id PK int
-    # username string
-    # first_name string
-    # last_name string
-    # email string
-    # region NULL string
 
     __tablename__ = 'users'
 
@@ -44,9 +36,9 @@ class User(db.Model):
         nullable = False
     )
 
-    region = db.Column(
-        db.Text
-    )
+    # region = db.Column(
+    #     db.Text
+    # )
 
     password = db.Column(
         db.Text,
@@ -57,18 +49,17 @@ class User(db.Model):
         return f"<User #{self.id}: {self.username}, {self.email}>"
 
     @classmethod
-    def signup(cls, username, email, password, image_url):
-        """Sign up user.
-
-        Hashes password and adds user to system.
-        """
+    def signup(cls, username, email, password, first_name, last_name):
+        """Sign up user. Hashes password and adds user to system."""
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
 
         user = User(
             username=username,
             email=email,
-            password=hashed_pwd
+            password=hashed_pwd,
+            first_name=first_name,
+            last_name=last_name
         )
 
         db.session.add(user)
@@ -78,7 +69,7 @@ class User(db.Model):
     def authenticate(cls, username, password):
         """Find user with `username` and `password`.
         If can't find matching user or password is wrong, returns False.
-        If user is found an password is correct,
+        If user is found and password is correct,
         returns user instance.
         """
 
@@ -92,6 +83,17 @@ class User(db.Model):
         return False
 
 ####################################################
+
+# SavedSearch
+# -
+# id PK int
+# user FK >- User.id User
+# light_needs FK >- LightLevel.id LightLevel NULL
+# soil_type_needs FK >- SoilType.id NULL
+# soil_moisture_needs FK >- SoilMoisture.id NULL
+# min_height int NULL
+# max_height int NULL
+# spread int NULL
 
 # LightLevel
 # -
@@ -116,20 +118,11 @@ class User(db.Model):
 # soil_type FK >- SoilType.id
 # soil_moisture FK >- SoilMoisture.id
 
-# SavedSearch
-# -
-# id PK int
-# user FK >- User.id User
-# light_needs FK >- LightLevel.id LightLevel NULL
-# soil_type_needs FK >- SoilType.id NULL
-# soil_moisture_needs FK >- SoilMoisture.id NULL
-# min_height int NULL
-# max_height int NULL
-# spread int NULL
 
 # Plant
 # -
 # id PK int
+# slug text
 
 # PlantList
 # -
