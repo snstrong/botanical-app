@@ -11,8 +11,6 @@ class UserAddForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
 
-
-
 class UserEditForm(FlaskForm):
     """Form for editing user."""
     password = PasswordField('Password', validators=[DataRequired()])

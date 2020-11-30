@@ -67,6 +67,7 @@ def get_quick_search_results():
     
     # TODO: handle edge case: no results found
     # TODO: check for image and provide default if null
+    # TODO: get next page of results ("Show more results" or continuous scroll)
     search_term = request.args['term']
     search_results = quick_search(trefle_token, search_term)
     return render_template('search-results.html', search_term=search_term, search_results=search_results)
@@ -87,10 +88,10 @@ def signup():
 
     Create new user and add to DB. Redirect to home page.
 
-    If form not valid, present form.
+    If data from form not valid, re-render form.
 
-    If the there already is a user with that username: flash message
-    and re-present form.
+    If there is already a user with that username, flash message
+    and re-render form.
     """
 
     form = UserAddForm()
