@@ -1,7 +1,8 @@
 """Functions for making requests to Trefle API."""
-
+import os
 import requests
-from secrets import trefle_token
+
+trefle_token = os.environ.get('TREFLE_TOKEN')
 
 BASE_URL = "https://trefle.io"
 
