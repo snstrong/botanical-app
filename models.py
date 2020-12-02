@@ -120,6 +120,12 @@ class GrowingArea(db.Model):
         db.String(400)
     )
 
+    def __repr__(self):
+        return f"<Growing Area #{self.id}: {self.name}, User #{self.user}>"
+
+
+
+
 # SavedSearch
 # -
 # id PK int
