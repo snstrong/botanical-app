@@ -4,7 +4,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 import requests
 from models import db, connect_db, User
 from trefle_requests import quick_search, get_one_plant
-from forms import UserAddForm, UserEditForm
+from forms import UserAddForm, UserEditForm, LoginForm
 from sqlalchemy.exc import IntegrityError
 
 CURR_USER_KEY = "curr_user"
@@ -118,29 +118,29 @@ def signup():
         return render_template('register.html', form=form)
 
 
-# @app.route('/login', methods=["GET", "POST"])
-# def login():
-#     """Handle user login."""
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    """Handle user login."""
 
-#     form = LoginForm()
+    form = LoginForm()
 
-#     if form.validate_on_submit():
-#         user = User.authenticate(form.username.data,
-#                                  form.password.data)
+    if form.validate_on_submit():
+        user = User.authenticate(form.username.data,
+                                 form.password.data)
 
-#         if user:
-#             do_login(user)
-#             flash(f"Hello, {user.username}!", "success")
-#             return redirect("/")
+        if user:
+            do_login(user)
+            flash(f"Hello, {user.username}!", "success")
+            return redirect("/")
 
-#         flash("Invalid credentials.", 'danger')
+        flash("Invalid credentials.", 'danger')
 
-#     return render_template('login.html', form=form)
+    return render_template('login.html', form=form)
 
 
-# @app.route('/logout')
-# def logout():
-#     """Handle logout of user."""
-#     do_logout()
-#     flash('You have been logged out.', 'warning')
-#     return redirect('/login')
+@app.route('/logout')
+def logout():
+    """Handle logout of user."""
+    do_logout()
+    flash('You have been logged out.', 'warning')
+    return redirect('/login')
