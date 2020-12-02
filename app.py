@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 import requests
-from models import db, connect_db, User
+from models import db, connect_db, User, GrowingArea
 from trefle_requests import quick_search, get_one_plant
 from forms import UserAddForm, UserEditForm, LoginForm
 from sqlalchemy.exc import IntegrityError

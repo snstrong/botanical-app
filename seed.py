@@ -1,7 +1,7 @@
 """Seed database for Tendril."""
 
 from app import db
-from models import User
+from models import User, GrowingArea
 
 
 db.drop_all()

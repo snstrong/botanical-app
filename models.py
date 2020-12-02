@@ -84,6 +84,42 @@ class User(db.Model):
 
 ####################################################
 
+class GrowingArea(db.Model):
+
+    __tablename__ = 'growing_areas'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    name = db.Column(
+        db.String(50),
+        default="(no name)"
+    )
+    description = db.Column(
+        db.String(200),
+        default="(no description)"
+    )
+    user = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete="cascade")
+    )
+    light_level = db.Column(
+        db.String
+    )
+    soil_texture = db.Column(
+        db.String
+    )
+    soil_moisture = db.Column(
+        db.String
+    )
+    soil_ph = db.Column(
+        db.Float
+    )
+    notes = db.Column(
+        db.String(400)
+    )
+
 # SavedSearch
 # -
 # id PK int
@@ -94,30 +130,6 @@ class User(db.Model):
 # min_height int NULL
 # max_height int NULL
 # spread int NULL
-
-# LightLevel
-# -
-# id PK int
-# description string
-
-# SoilType
-# -
-# id PK int
-# description string
-
-# SoilMoisture
-# -
-# id PK int
-# description string
-
-# GrowingArea
-# -
-# id PK int
-# user FK >- User.id User
-# light_level FK >- LightLevel.id LightLevel
-# soil_type FK >- SoilType.id
-# soil_moisture FK >- SoilMoisture.id
-
 
 # Plant
 # -
