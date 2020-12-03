@@ -9,19 +9,16 @@ BASE_URL = "https://trefle.io"
 def quick_search(token, search_term):
     """Simple single-field search request. Returns JSON response as dict."""
     response = requests.get(f'{BASE_URL}/api/v1/species/search', params={"q": search_term, "token": token})
-    return response.json()["data"]
+    return response.json()
 
-def get_next_page(token, search_response):
-    if search_response.links.next:
-        response = requests.get(f'{BASE_URL}{search_response.links.next}', params={"token": token})
-    else:
-        response = requests.get(f'{BASE_URL}{search_response.links.last}', params={"token": token})
-    return response.json()["data"]
+def get_next_page(token, next_page_url):
+    response = requests.get(f'{BASE_URL}{next_page_url}', params={"token": token})
+    return response.json()
 
 def get_one_plant(token, plant_slug):
     """Retrieves data for a specific plant. Returns JSON response as dict."""
     response = requests.get(f'{BASE_URL}/api/v1/species/{plant_slug}', params={"token": token})
-    return response.json()["data"]
+    return response.json()
 
 
 advanced_search_tester = {
@@ -34,5 +31,5 @@ def advanced_search(token, search_terms):
     """Multi-field search request to API. Returns JSON response as dict."""
     search_terms["token"] = token
     response = requests.get(f'{BASE_URL}/api/v1/species', params=search_terms)
-    return response.json()["data"]
+    return response.json()
 

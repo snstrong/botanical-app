@@ -60,16 +60,30 @@ def do_logout():
 def show_landing_page():
     return render_template('index.html')
 
+#############################################################
+# Search Routes
+#############################################################
+
 @app.route('/search')
 def get_quick_search_results():
     """Show results for single-term search."""
-    
+    # TODO: refactor as JSON API endpoint; build page with JS; will make dealing with pagination more sensible
     # TODO: handle edge case: no results found
     # TODO: check for image and provide default if null
     # TODO: get next page of results ("Show more results" or continuous scroll)
     search_term = request.args['term']
     search_results = quick_search(trefle_token, search_term)
     return render_template('search-results.html', search_term=search_term, search_results=search_results)
+
+@app.route('/search/next', methods=['GET'])
+def get_next_results_page():
+    """Get next page of search results. Return as JSON."""
+    pass;
+
+@app.route('/search/advanced', methods=['GET'])
+def get_advanced_search_results():
+    """Handle advanced search request. Return JSON."""
+    pass;
 
 @app.route('/plant/<plant_slug>')
 def get_plant_detail(plant_slug):

@@ -9,11 +9,18 @@
 <div class="row">
     <!-- TODO: handle edge case: no results found -->
     <!-- TODO: check for image and provide default if null -->
-    {% for plant in search_results %}
+    {% for plant in search_results.data %}
     <div class="card col-12 col-lg-6 col-xl-4 float-left">
         <div class="card-body">
-            <a href="/plant/{{plant.slug}}"><img src="{{plant.image_url}}" alt="Photo of {{plant.common_name}}"
-                    class="search img-thumbnail rounded mr-4 float-left"></a>
+            <a href="/plant/{{plant.slug}}">
+                <img src="
+                {% if plant.image_url %}
+                {{plant.image_url}}
+                {% else %}
+                /static/images/thumbnail_default.png
+                {% endif %}
+                " alt="Photo of {{plant.common_name}}" class="search img-thumbnail rounded mr-4 float-left">
+            </a>
             <div class="card-text">
                 <a class="h5 card-title" href="/plant/{{plant.slug}}">{{plant.common_name}}</a>
                 <h6 class="card-subtitle scientific-name mb-2 text-muted">{{plant.scientific_name}}</h6>
@@ -22,4 +29,5 @@
     </div>
     {% endfor %}
 </div>
+
 {% endblock %}

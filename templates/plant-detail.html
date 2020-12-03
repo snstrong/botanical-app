@@ -1,24 +1,30 @@
 {% extends 'base.html' %}
-{% block title %}{{plant_details.scientific_name}} | Tendril{% endblock %}
+{% block title %}{{plant_details.data.scientific_name}} | Tendril{% endblock %}
 
 {% block content %}
 <!-- TODO: breadcrumbs or "back to search results" -->
 
-<img src="{{plant_details.image_url}}" alt="Photo of {{plant_details.common_name}}"
+{% if plant_details.data.image_url %}
+<img src="{{plant_details.data.image_url}}" alt="Photo of {{plant_details.data.common_name}}"
     style="width: 50%; float: left; margin-right: 1em; margin-bottom: 1em;">
-<h1 class="text-info">{{plant_details.common_name}}</h1>
-<h3 class="text-muted scientific-name">{{plant_details.scientific_name}}</h3>
+{% endif %}
+<h1 class="text-info">{{plant_details.data.common_name}}</h1>
+<h3 class="text-muted scientific-name">{{plant_details.data.scientific_name}}</h3>
 
 <div id="common-names-list">
-    <h4>Common Names</h4>
+    <h3>Common Names</h3>
     <div>
-        {{ plant_details.common_names.eng|join(", ") }}
+        {{ plant_details.data.common_names.eng|join(", ") }}
     </div>
+    <h3>External Sources</h3>
+    <ul style="list-style-type: none; padding: 0;">
+        {% for source in plant_details.data.sources %}
+        <li>
+            <a target="_blank" href="{{source.url}}">{{source.name}}</a>
+        </li>
+        {% endfor%}
+    </ul>
 
-    <!-- {% for name in plant_details.common_names.eng%}
-   
-    <span>{{name}},&nbsp;</span>
-    {% endfor %} -->
 </div>
 
 {% endblock %}
