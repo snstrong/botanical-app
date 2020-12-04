@@ -158,3 +158,25 @@ def logout():
     do_logout()
     flash('You have been logged out.', 'warning')
     return redirect('/login')
+
+@app.route('/<username>/garden')
+def show_garden_page(username):
+    pass;
+
+@app.route('/<username>/growing-area/<int:growing_area>')
+def show_growing_area(username, growing_area):
+    pass;
+
+@app.route('/<username>/new-growing-area', methods=['POST'])
+def create_growing_area(username):
+    pass;
+
+@app.route('/<username>/edit-growing-area/<int:growing_area>', methods=['PATCH'])
+def edit_growing_area(username, growing_area):
+    pass;
+
+@app.route('/<username>/delete-growing-area/<int:growing_area>', methods=['DELETE'])
+def delete_growing_area(username, growing_area):
+    pass;
+
+
