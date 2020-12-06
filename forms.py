@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, FloatField
 from wtforms.validators import DataRequired, Email, Length
+
+# User Account Info Forms
 
 class UserAddForm(FlaskForm):
     """Form for adding users."""
@@ -21,10 +23,21 @@ class UserEditForm(FlaskForm):
 class LoginForm(FlaskForm):
     """Login form."""
 
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[Length(min=6)])
+    username = StringField('Username', validators=[DataRequired(message="Growing area name required")])
+    password = PasswordField('Password', validators=[Length(min=6), DataRequired(message="Password required")])
 
-# TODO: Growing Area Form
+# Growing Area Forms
+
+class GrowingAreaForm(FlaskForm):
+    """Form for adding or editing a growing area in the user's garden."""
+    name = StringField('Name', validators=[DataRequired(), Length(max=40)])
+    description = TextAreaField('Description', validators=[Length(max=200)])
+    light_level = SelectField('Light Level', choices=["Full Sun", "Partial Sun/Shade", "Full Shade"])
+    soil_texture = SelectField('Soil Texture', choices=["Clay", "Loam", "Sandy", "Rocky"])
+    soil_moisture = SelectField('Soil Moisture', choices=["Dry", "Medium", "Wet"])
+    soil_ph = FloatField('Soil ph')
+    notes = TextAreaField('Notes', validators=[Length(max=400)])
+    
 
 # TODO: Advanced Search Form
 

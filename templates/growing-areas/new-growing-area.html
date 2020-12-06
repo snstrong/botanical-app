@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}New Growing Area | Tendril{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Create New Growing Area</h2>
+    <form id="new-growing-area-form" method="POST" style="max-width: 500px;">
+        {% include "base-form.html" %}
+        <button class="btn btn-info">Submit</button>
+    </form>
+</div>
+
+{% endblock %}

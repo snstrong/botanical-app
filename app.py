@@ -4,7 +4,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 import requests
 from models import db, connect_db, User, GrowingArea
 from trefle_requests import quick_search, get_one_plant
-from forms import UserAddForm, UserEditForm, LoginForm
+from forms import UserAddForm, UserEditForm, LoginForm, GrowingAreaForm
 from sqlalchemy.exc import IntegrityError
 
 CURR_USER_KEY = "curr_user"
@@ -51,6 +51,15 @@ def do_logout():
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
+
+def check_if_g_user():
+    """Check to see if there is a user in Flask global. If so, return g.user, else return False."""
+    if g.user:
+        return g.user
+    else:
+        return False
+
+
 
 #############################################################
 # General Routes
@@ -167,9 +176,18 @@ def show_garden_page(username):
 def show_growing_area(username, growing_area):
     pass;
 
-@app.route('/<username>/new-growing-area', methods=['POST'])
+@app.route('/<username>/new-growing-area', methods=['GET', 'POST'])
 def create_growing_area(username):
-    pass;
+    """Render form for creating a new growing area in the user's garden"""
+    
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    form = GrowingAreaForm()
+
+    return render_template("growing-areas/new-growing-area.html", form=form)
+
 
 @app.route('/<username>/edit-growing-area/<int:growing_area>', methods=['PATCH'])
 def edit_growing_area(username, growing_area):
