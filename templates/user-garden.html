@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Your Garden | Tendril{% endblock %}
+
+{% block content %}
+<h2>Your Garden</h2>
+<hr>
+<section>
+
+    <div>
+        <h3>Growing Areas</h3>
+        <a href="/{{g.user}}/new-growing-area" class="btn btn-info btn-sm mb-2">+ Add New</a>
+        {% for area in growing_areas %}
+        <div class="card" style="width: 20rem; border: 1px solid  #bae357">
+            <div class="m-2">
+                <h4 class="card-title">{{area.name}}</h4>
+                <ul class="card-body">
+                    <li><em>Description: </em>{{area.description}}</li>
+                    <li><em>Light Level: </em>{{area.light_level}}</li>
+                    <li><em>Soil Texture: </em>{{area.soil_texture}}</li>
+                    <li><em>Soil Moisture: </em>{{area.soil_moisture}}</li>
+                    <li><em>Soil Ph: </em>{{area.soil_ph}}</li>
+                    <li><em>Notes: </em>{{area.notes}}</li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

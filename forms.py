@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, SelectField, FloatField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms.validators import DataRequired, Email, Length, Optional
 
 # User Account Info Forms
 
@@ -35,7 +35,7 @@ class GrowingAreaForm(FlaskForm):
     light_level = SelectField('Light Level', choices=["Full Sun", "Partial Sun/Shade", "Full Shade"])
     soil_texture = SelectField('Soil Texture', choices=["Clay", "Loam", "Sandy", "Rocky"])
     soil_moisture = SelectField('Soil Moisture', choices=["Dry", "Medium", "Wet"])
-    soil_ph = FloatField('Soil ph')
+    soil_ph = FloatField('Soil ph', validators=[Optional()])
     notes = TextAreaField('Notes', validators=[Length(max=400)])
     
 

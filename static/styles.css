@@ -39,7 +39,7 @@ nav {
   color: black;
 }
 
-.card-title:hover {
+.card-title.search-results:hover {
   text-decoration: none;
   color: #368e50;
   font-weight: 600;

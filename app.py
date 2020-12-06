@@ -170,7 +170,8 @@ def logout():
 
 @app.route('/<username>/garden')
 def show_garden_page(username):
-    pass;
+    growing_areas = GrowingArea.query.filter_by(user=g.user.id).all()
+    return render_template("user-garden.html", growing_areas=growing_areas)
 
 @app.route('/<username>/growing-area/<int:growing_area>')
 def show_growing_area(username, growing_area):
@@ -185,6 +186,27 @@ def create_growing_area(username):
         return redirect("/")
 
     form = GrowingAreaForm()
+
+    if form.validate_on_submit():
+        try:
+            growing_area = GrowingArea(
+                user = session[CURR_USER_KEY],
+                name = form.name.data,
+                description = form.description.data,
+                light_level = form.light_level.data,
+                soil_texture = form.soil_texture.data,
+                soil_moisture = form.soil_moisture.data,
+                soil_ph = form.soil_ph.data,
+                notes = form.notes.data
+            )
+            db.session.add(growing_area)
+            db.session.commit()
+
+        except IntegrityError:
+            flash("Sorry, something went wrong. Please try again.", 'danger')
+            return render_template('register.html', form=form)
+        flash("Successfully created new growing area!", "success")
+        return redirect("/{g.user}/garden")
 
     return render_template("growing-areas/new-growing-area.html", form=form)
 
