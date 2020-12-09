@@ -168,6 +168,14 @@ def logout():
     flash('You have been logged out.', 'warning')
     return redirect('/login')
 
+@app.route('/<username>/account')
+def show_account_info(username):
+    if g.user and g.user.username == username:
+        return render_template('user-account.html')
+    else:
+        flash("You are not authorized to access this page.")
+        return redirect('/')
+
 @app.route('/<username>/garden')
 def show_garden_page(username):
     growing_areas = GrowingArea.query.filter_by(user=g.user.id).all()
@@ -181,7 +189,7 @@ def show_growing_area(username, growing_area):
 def create_growing_area(username):
     """Render form for creating a new growing area in the user's garden"""
     
-    if not g.user:
+    if not g.user or g.user.username != username:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 

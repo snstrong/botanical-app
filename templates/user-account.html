@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Your Account | Tendril{% endblock %}
+
+{% block content %}
+<h2>Your Account</h2>
+<ul>
+    <li><strong>Username: </strong> {{g.user.username}}</li>
+    <li><strong>Name: </strong>{{g.user.first_name}} {{g.user.last_name}}</li>
+    <li><strong>Email: </strong>{{g.user.email}}</li>
+</ul>
+<a href="/{{g.user.username}}/edit-account" class="btn btn-info">Edit Account Info</a>
+
+{% endblock %}
