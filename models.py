@@ -123,7 +123,62 @@ class GrowingArea(db.Model):
     def __repr__(self):
         return f"<Growing Area #{self.id}: {self.name}, User #{self.user}>"
 
+####################################################
 
+class Plant(db.Model):
+    __tablename__ = "plants"
+
+    id = db.Column(
+        db.Integer,
+        primary_key = True
+    )
+    slug = db.Column(
+        db.String,
+        nullable=False,
+        unique=True
+    )
+    scientific_name = db.Column(
+        db.String,
+        nullable=False
+    )
+    image_url = db.Column(
+        db.String
+    )
+
+class PlantList(db.Model):
+    __tablename__ = "plant_lists"
+    
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    name = db.Column(
+        db.String(30),
+        nullable=False,
+        default="(no name)"
+    )
+    description = db.Column(
+        db.String(300),
+        nullable=True
+    )
+    growing_area = db.Column(
+        db.Integer,
+        db.ForeignKey('growing_areas.id', ondelete="cascade"),
+        nullable=True
+    )
+    user = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete="cascade"),
+        nullable=False
+    )
+
+
+
+
+# PlantJoinPlantList
+# -
+# plant_list_id PK FK >- PlantList.id PlantList.id
+# plant_id PK FK >- Plant.id Plant.id
 
 
 # SavedSearch
@@ -136,23 +191,6 @@ class GrowingArea(db.Model):
 # min_height int NULL
 # max_height int NULL
 # spread int NULL
-
-# Plant
-# -
-# id PK int
-# slug text
-
-# PlantList
-# -
-# id PK int
-# growing_area FK >- GrowingArea.id
-# user FK >- User.id User
-# name string
-
-# PlantJoinPlantList
-# -
-# plant_list_id PK FK >- PlantList.id PlantList.id
-# plant_id PK FK >- Plant.id Plant.id
 
 
 ####################################################
