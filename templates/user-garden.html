@@ -8,7 +8,12 @@
 
     <div>
         <h3>Planting Areas</h3>
+
+        <!-- TODO:  Button should only appear if g.user.username matches username associated with page -->
+
+        {% if username == g.user.username %}
         <a href="/{{g.user.username}}/new-growing-area" class="btn btn-info btn-sm mb-2">+ Add New</a>
+        {% endif %}
         {% for area in growing_areas %}
         <div class="card" style="width: 20rem; border: 1px solid  #bae357; background-color: rgba(255,255,255, 0.7);">
             <div class="p-3">

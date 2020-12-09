@@ -78,8 +78,6 @@ def get_quick_search_results():
     """Show results for single-term search."""
     # TODO: refactor as JSON API endpoint; build page with JS; will make dealing with pagination more sensible
     # TODO: handle edge case: no results found
-    # TODO: check for image and provide default if null
-    # TODO: get next page of results ("Show more results" or continuous scroll)
     search_term = request.args['term']
     search_results = quick_search(trefle_token, search_term)
     return render_template('search-results.html', search_term=search_term, search_results=search_results)
@@ -178,8 +176,9 @@ def show_account_info(username):
 
 @app.route('/<username>/garden')
 def show_garden_page(username):
-    growing_areas = GrowingArea.query.filter_by(user_id=g.user.id).all()
-    return render_template("user-garden.html", growing_areas=growing_areas)
+    this_user = User.query.filter_by(username=username).first_or_404()
+    growing_areas = GrowingArea.query.filter_by(user_id=this_user.id).all()
+    return render_template("user-garden.html", growing_areas=growing_areas, username=username)
 
 @app.route('/<username>/growing-area/<int:growing_area>')
 def show_growing_area(username, growing_area):
@@ -212,9 +211,12 @@ def create_growing_area(username):
 
         except IntegrityError:
             flash("Sorry, something went wrong. Please try again.", 'danger')
-            return render_template('register.html', form=form)
+            if g.user:
+                return redirect("/{g.user.username}/garden")
+            else:
+                return redirect("/")
+        
         flash("Successfully created new growing area!", "success")
-        return redirect("/{g.user}/garden")
 
     return render_template("growing-areas/new-growing-area.html", form=form)
 
