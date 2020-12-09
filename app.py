@@ -178,7 +178,7 @@ def show_account_info(username):
 
 @app.route('/<username>/garden')
 def show_garden_page(username):
-    growing_areas = GrowingArea.query.filter_by(user=g.user.id).all()
+    growing_areas = GrowingArea.query.filter_by(user_id=g.user.id).all()
     return render_template("user-garden.html", growing_areas=growing_areas)
 
 @app.route('/<username>/growing-area/<int:growing_area>')
@@ -198,7 +198,7 @@ def create_growing_area(username):
     if form.validate_on_submit():
         try:
             growing_area = GrowingArea(
-                user = session[CURR_USER_KEY],
+                user_id = session[CURR_USER_KEY],
                 name = form.name.data,
                 description = form.description.data,
                 light_level = form.light_level.data,

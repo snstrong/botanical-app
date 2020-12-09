@@ -100,10 +100,12 @@ class GrowingArea(db.Model):
         db.String(200),
         default="(no description)"
     )
-    user = db.Column(
+    user_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete="cascade")
     )
+    user = db.relationship('User', backref="growing_areas")
+
     light_level = db.Column(
         db.String
     )
@@ -166,19 +168,27 @@ class PlantList(db.Model):
         db.ForeignKey('growing_areas.id', ondelete="cascade"),
         nullable=True
     )
-    user = db.Column(
+    user_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete="cascade"),
         nullable=False
     )
+    plants = db.relationship('Plant', secondary="plant_list_plants", backref="plant_lists")
+    user = db.relationship('User', backref="plant_lists")
 
-
-
-
-# PlantJoinPlantList
-# -
-# plant_list_id PK FK >- PlantList.id PlantList.id
-# plant_id PK FK >- Plant.id Plant.id
+class PlantList_Plants(db.Model):
+    __tablename__="plant_list_plants"
+    
+    plant_list_id = db.Column(
+        db.Integer,
+        db.ForeignKey('plant_lists.id', ondelete="cascade"),
+        primary_key = True
+    )
+    plant_id = db.Column(
+        db.Integer,
+        db.ForeignKey('plants.id', ondelete="cascade"),
+        primary_key = True
+    )
 
 
 # SavedSearch
