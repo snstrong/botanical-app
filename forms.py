@@ -34,10 +34,13 @@ class GrowingAreaForm(FlaskForm):
     description = TextAreaField('Description', validators=[Length(max=200)])
     light_level = SelectField('Light Level', choices=["Full Sun", "Partial Sun/Shade", "Full Shade"])
     soil_texture = SelectField('Soil Texture', choices=["Clay", "Loam", "Sandy", "Rocky"])
-    soil_moisture = SelectField('Soil Moisture', choices=["Dry", "Medium", "Wet"])
+    soil_moisture = SelectField('Soil Moisture', choices=["Dry", "Medium", "Damp", "Wet"])
     soil_ph = FloatField('Soil ph', validators=[Optional()])
     notes = TextAreaField('Notes', validators=[Length(max=400)])
     
+
+# TODO: Plant List Forms - PlantListCreateForm, AddPlantToListForm
+
 
 # TODO: Advanced Search Form
 

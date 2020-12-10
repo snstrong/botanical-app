@@ -10,6 +10,10 @@ body {
     sans-serif;
 }
 
+hr {
+  border-color: #bae357;
+}
+
 #site-logo {
   font-family: "Righteous", "Gill Sans", "Gill Sans MT", "Trebuchet MS",
     sans-serif;

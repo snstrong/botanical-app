@@ -67,6 +67,8 @@ def check_if_g_user():
 
 @app.route('/')
 def show_landing_page():
+    if g.user:
+        return redirect(f"/{g.user.username}/garden")
     return render_template('index.html')
 
 #############################################################
@@ -171,8 +173,12 @@ def show_account_info(username):
     if g.user and g.user.username == username:
         return render_template('user-account.html')
     else:
-        flash("You are not authorized to access this page.")
+        flash("You are not authorized to access this page.", "warning")
         return redirect('/')
+
+#############################################################
+# Garden Routes
+#############################################################
 
 @app.route('/<username>/garden')
 def show_garden_page(username):
@@ -217,6 +223,7 @@ def create_growing_area(username):
                 return redirect("/")
         
         flash("Successfully created new growing area!", "success")
+        return redirect(f"/{g.user.username}/garden")
 
     return render_template("growing-areas/new-growing-area.html", form=form)
 
