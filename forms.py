@@ -49,7 +49,7 @@ class NewPlantListForm(FlaskForm):
 
 class AddPlantForm(FlaskForm):
     """Simple form for adding plant to a list."""
-    plant_list = SelectField('Plant List', validators=[DataRequired()])
+    plant_list = SelectField(validators=[DataRequired()])
     plant_id = HiddenField(validators=[DataRequired()])
     plant_slug = HiddenField(validators=[DataRequired()])
     plant_scientific_name = HiddenField(validators=[DataRequired()])

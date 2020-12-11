@@ -79,7 +79,6 @@ def show_landing_page():
 def get_quick_search_results():
     """Show results for single-term search."""
     # TODO: refactor as JSON API endpoint; build page with JS; will make dealing with pagination more sensible
-    # TODO: handle edge case: no results found
     search_term = request.args['term']
     search_results = quick_search(trefle_token, search_term)
     return render_template('search-results.html', search_term=search_term, search_results=search_results)
@@ -101,15 +100,17 @@ def get_plant_detail(plant_slug):
     If logged in user, give option to add to a plant list.
     """
     plant_details = get_one_plant(trefle_token, plant_slug)
+
     if g.user:
         add_plant_form = AddPlantForm()
+        # Check to see if user has existing plant lists and populate select choices accordingly"""
         if g.user.plant_lists:
             plant_lists = [list.name for list in g.user.plant_lists]
             plant_lists.append("Create New List")
-            # Set values for hidden form fields regarding plant data
             add_plant_form.plant_list.choices = plant_lists
         else:
             add_plant_form.plant_list.choices = ["Create New List"]    
+        # Pass along data about plant in hidden fields
         add_plant_form.plant_id = plant_details["data"]["id"]
         add_plant_form.plant_slug = plant_details["data"]["slug"]
         add_plant_form.plant_scientific_name = plant_details["data"]["scientific_name"]

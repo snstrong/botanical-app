@@ -3,6 +3,10 @@
 
 {% block content %}
 
+{% if not search_results.data %}
+<h2 class="search-result-header text-muted">No results for <em class="text-info">{{search_term}}</em></h2>
+
+{% else %}
 <h2 class="search-result-header text-muted">Search results for <em class="text-info">{{search_term}}</em></h2>
 
 <div class="container-fluid"></div>
@@ -29,5 +33,5 @@
     </div>
     {% endfor %}
 </div>
-
+{% endif %}
 {% endblock %}
