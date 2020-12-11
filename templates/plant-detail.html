@@ -6,14 +6,18 @@
 
 {% if plant_details.data.image_url %}
 <img src="{{plant_details.data.image_url}}" alt="Photo of {{plant_details.data.common_name}}"
-    style="width: 50%; float: left; margin-right: 1em; margin-bottom: 1em;">
+    style="width: 500px; float: left; margin-right: 1em; margin-bottom: 1em;">
 {% endif %}
-<h1 class="text-info">{{plant_details.data.common_name}}</h1>
-<h3 class="text-muted scientific-name">{{plant_details.data.scientific_name}}</h3>
+<header>
+    <h1 class="text-info">{{plant_details.data.common_name}}</h1>
+    <h3 class="text-muted scientific-name">{{plant_details.data.scientific_name}}</h3>
+</header>
+
 {% if g.user %}
-<div class="float-left" style="width: 240px">
-    <h4>Add plant to a list:</h4>
+<div class="float-left mb-3">
+    <h5>Add to a Plant List</h5>
     <form method="POST" action="/{{g.user.username}}/add-plant">
+        <!-- TODO: customize form for this page; get rid of unnecessary label -->
         {% include "base-form.html" %}
         <button class="btn btn-info btn-small">Add</button>
     </form>
@@ -21,11 +25,13 @@
 
 {% endif %}
 
-<div id="common-names-list">
+<div class="mb-3" id="common-names-list">
     <h3>Common Names</h3>
     <div>
         {{ plant_details.data.common_names.eng|join(", ") }}
     </div>
+</div>
+<div id="external-sources">
     <h3>External Sources</h3>
     <ul style="list-style-type: none; padding: 0;">
         {% for source in plant_details.data.sources %}
@@ -34,7 +40,6 @@
         </li>
         {% endfor%}
     </ul>
-
 </div>
 
 {% endblock %}
