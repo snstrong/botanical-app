@@ -4,7 +4,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 import requests
 from models import db, connect_db, User, GrowingArea
 from trefle_requests import quick_search, get_one_plant
-from forms import UserAddForm, UserEditForm, LoginForm, GrowingAreaForm
+from forms import UserAddForm, UserEditForm, LoginForm, GrowingAreaForm, NewPlantListForm, AddPlantForm
 from sqlalchemy.exc import IntegrityError
 
 CURR_USER_KEY = "curr_user"
@@ -96,8 +96,29 @@ def get_advanced_search_results():
 
 @app.route('/plant/<plant_slug>')
 def get_plant_detail(plant_slug):
-    """Show data for a given plant."""
+    """
+    Show data for a given plant.
+    If logged in user, give option to add to a plant list.
+    """
     plant_details = get_one_plant(trefle_token, plant_slug)
+    if g.user:
+        add_plant_form = AddPlantForm()
+        if g.user.plant_lists:
+            plant_lists = [list.name for list in g.user.plant_lists]
+            plant_lists.append("Create New List")
+            # Set values for hidden form fields regarding plant data
+            add_plant_form.plant_list.choices = plant_lists
+        else:
+            add_plant_form.plant_list.choices = ["Create New List"]    
+        add_plant_form.plant_id = plant_details["data"]["id"]
+        add_plant_form.plant_slug = plant_details["data"]["slug"]
+        add_plant_form.plant_scientific_name = plant_details["data"]["scientific_name"]
+        if plant_details["data"]["image_url"]:
+            add_plant_form.plant_image_url = plant_details["data"]["image_url"]
+        else:
+            add_plant_form.plant_image_url = "/static/images/thumbnail_default.png"
+        return render_template('plant-detail.html', plant_details=plant_details, form=add_plant_form)
+    
     return render_template('plant-detail.html', plant_details=plant_details)
 
 #############################################################

@@ -10,6 +10,16 @@
 {% endif %}
 <h1 class="text-info">{{plant_details.data.common_name}}</h1>
 <h3 class="text-muted scientific-name">{{plant_details.data.scientific_name}}</h3>
+{% if g.user %}
+<div class="float-left" style="width: 240px">
+    <h4>Add plant to a list:</h4>
+    <form method="POST" action="/{{g.user.username}}/add-plant">
+        {% include "base-form.html" %}
+        <button class="btn btn-info btn-small">Add</button>
+    </form>
+</div>
+
+{% endif %}
 
 <div id="common-names-list">
     <h3>Common Names</h3>

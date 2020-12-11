@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, SelectField, FloatField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, FloatField, HiddenField
 from wtforms.validators import DataRequired, Email, Length, Optional
 
 # User Account Info Forms
@@ -50,7 +50,10 @@ class NewPlantListForm(FlaskForm):
 class AddPlantForm(FlaskForm):
     """Simple form for adding plant to a list."""
     plant_list = SelectField('Plant List', validators=[DataRequired()])
-
+    plant_id = HiddenField(validators=[DataRequired()])
+    plant_slug = HiddenField(validators=[DataRequired()])
+    plant_scientific_name = HiddenField(validators=[DataRequired()])
+    plant_image_url = HiddenField(validators=[DataRequired()])
 
 # TODO: Advanced Search Form
 
