@@ -39,7 +39,17 @@ class GrowingAreaForm(FlaskForm):
     notes = TextAreaField('Notes', validators=[Length(max=400)])
     
 
-# TODO: Plant List Forms - PlantListCreateForm, AddPlantToListForm
+# Plant List Forms - NewPlantListForm, AddPlantForm
+
+class NewPlantListForm(FlaskForm):
+    """Form for creating a new plant list."""
+    name = StringField('Name', validators=[DataRequired(), Length(max=30)])
+    description = StringField('Description', validators=[Optional(), Length(max=300)])
+    growing_area = SelectField('Planting Area', validators=[Optional()])
+
+class AddPlantForm(FlaskForm):
+    """Simple form for adding plant to a list."""
+    plant_list = SelectField('Plant List', validators=[DataRequired()])
 
 
 # TODO: Advanced Search Form
