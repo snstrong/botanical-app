@@ -2,7 +2,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, SelectField, FloatField, HiddenField
 from wtforms.validators import DataRequired, Email, Length, Optional
 
+#############################################################
 # User Account Info Forms
+#############################################################
 
 class UserAddForm(FlaskForm):
     """Form for adding users."""
@@ -26,7 +28,9 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(message="Growing area name required")])
     password = PasswordField('Password', validators=[Length(min=6), DataRequired(message="Password required")])
 
+#############################################################
 # Growing Area Forms
+#############################################################
 
 class GrowingAreaForm(FlaskForm):
     """Form for adding or editing a growing area in the user's garden."""
@@ -38,8 +42,9 @@ class GrowingAreaForm(FlaskForm):
     soil_ph = FloatField('Soil ph', validators=[Optional()])
     notes = TextAreaField('Notes', validators=[Length(max=400)])
     
-
+#############################################################
 # Plant List Forms - NewPlantListForm, AddPlantForm
+#############################################################
 
 class NewPlantListForm(FlaskForm):
     """Form for creating a new plant list."""
@@ -54,6 +59,8 @@ class AddPlantForm(FlaskForm):
     plant_slug = HiddenField(validators=[DataRequired()])
     plant_scientific_name = HiddenField(validators=[DataRequired()])
     plant_image_url = HiddenField(validators=[DataRequired()])
+
+
 
 # TODO: Advanced Search Form
 

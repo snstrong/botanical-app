@@ -208,6 +208,10 @@ def show_garden_page(username):
     growing_areas = GrowingArea.query.filter_by(user_id=this_user.id).all()
     return render_template("user-garden.html", growing_areas=growing_areas, username=username)
 
+#############################################################
+# Growing Area Routes
+#############################################################
+
 @app.route('/<username>/growing-area/<int:growing_area>')
 def show_growing_area(username, growing_area):
     pass;
@@ -252,10 +256,27 @@ def create_growing_area(username):
 
 @app.route('/<username>/edit-growing-area/<int:growing_area>', methods=['PATCH'])
 def edit_growing_area(username, growing_area):
+    # TODO: flesh this out
     pass;
 
 @app.route('/<username>/delete-growing-area/<int:growing_area>', methods=['DELETE'])
 def delete_growing_area(username, growing_area):
+    # TODO: flesh this out
     pass;
+
+#############################################################
+# Plant List Routes
+#############################################################
+
+# TODO: all of these
+
+# Create Plant List
+
+# Add Plant to List
+#### /{{g.user.username}}/add-plant
+
+# Delete Plant from List
+
+# Assign List to Growing/Planting Area
 
 
