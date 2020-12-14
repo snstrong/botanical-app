@@ -48,9 +48,9 @@ class GrowingAreaForm(FlaskForm):
 
 class NewPlantListForm(FlaskForm):
     """Form for creating a new plant list."""
-    name = StringField('Name', validators=[DataRequired(), Length(max=30)])
-    description = StringField('Description', validators=[Optional(), Length(max=300)])
-    growing_area = SelectField('Planting Area', validators=[Optional()])
+    name = StringField('Name for Plant List', validators=[DataRequired(), Length(max=30)])
+    description = StringField('Description of Plant List', validators=[Optional(), Length(max=300)])
+    growing_area = SelectField('Planting Area', coerce=int)
 
 class AddPlantForm(FlaskForm):
     """Simple form for adding plant to a list."""

@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 import requests
-from models import db, connect_db, User, GrowingArea
+from models import db, connect_db, User, GrowingArea, PlantList, Plant, PlantList_Plants
 from trefle_requests import quick_search, get_one_plant
 from forms import UserAddForm, UserEditForm, LoginForm, GrowingAreaForm, NewPlantListForm, AddPlantForm
 from sqlalchemy.exc import IntegrityError
@@ -289,20 +289,24 @@ def new_plant_list(username):
     
     form = NewPlantListForm()
     
-    # Something about this block is not working...
+    # Generate choices for select field
     growing_areas = g.user.growing_areas
     if growing_areas:
         growing_area_names = [(area.id, area.name) for area in growing_areas]
-    form.growing_area.choices = growing_area_names
-    raise
+        growing_area_names.insert(0, ("0", "(none)"))
+        form.growing_area.choices = growing_area_names
+    else:
+        growing_area_names = [("0", "(none)")]
+
+   # TODO: check for edge case (User already has plant list with same name)
 
     if form.validate_on_submit():
         try:
             plant_list = PlantList(
-                user_id = session[CURR_USER_KEY],
+                user_id = int(session[CURR_USER_KEY]),
                 name = form.name.data,
                 description = form.description.data,
-                growing_area = form.growing_area.data
+                growing_area = int(form.growing_area.data)
             )
             db.session.add(plant_list)
             db.session.commit()
@@ -317,7 +321,6 @@ def new_plant_list(username):
         flash("Successfully created new plant list!", "success")
         return redirect(f"/{g.user.username}/garden")
 
-    
     return render_template("plant-lists/new-plant-list.html", form=form)
 
 
