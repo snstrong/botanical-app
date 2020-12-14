@@ -294,31 +294,32 @@ def new_plant_list(username):
     growing_areas = g.user.growing_areas
     if growing_areas:
         growing_area_names = [(area.id, area.name) for area in growing_areas]
-        growing_area_names.insert(0, ("0", "(none)"))
+        growing_area_names.insert(0, (0, "(none)"))
     else:
-        growing_area_names = [("0", "(none)")]
+        growing_area_names = [(0, "(none)")]
     form.growing_area.choices = growing_area_names
 
 
    # TODO: check for edge case (User already has plant list with same name)
-   # TODO: check if growing area is 0
 
-    if form.validate_on_submit():
-            
+    if form.validate_on_submit():   
+        print("WE GOT THERE, LOOK AT ME LOOK AT ME")    
+        db.session.rollback()
         try:
             plant_list = PlantList(
                 user_id = int(session[CURR_USER_KEY]),
                 name = form.name.data,
-                description = form.description.data,
-                growing_area = int(form.growing_area.data)
+                description = form.description.data
             )
+            if int(form.growing_area.data) > 0 and form.growing_area.data is not None:
+                plant_list.growing_area = int(form.growing_area.data)
             db.session.add(plant_list)
             db.session.commit()
 
         except IntegrityError:
             flash("Sorry, something went wrong.", 'warning')
             if g.user:
-                return redirect("/{g.user.username}/garden")
+                return redirect(f"/{g.user.username}/garden")
             else:
                 return redirect("/")
         
