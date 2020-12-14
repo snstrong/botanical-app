@@ -59,6 +59,14 @@ def check_if_g_user():
     else:
         return False
 
+def username_match(username):
+    """Check to see if a username matches g.user.username. Returns True or False."""
+    g_user = check_if_g_user()
+    if not g_user:
+        return False
+    else:
+        if g_user.username == username:
+            return True
 
 
 #############################################################
@@ -268,15 +276,59 @@ def delete_growing_area(username, growing_area):
 # Plant List Routes
 #############################################################
 
-# TODO: all of these
+# TODO: fix choices problem with select. check other project that generated choices for select field in app.py (database dj????)
 
 # Create Plant List
+# 
+@app.route('/<username>/new-plant-list', methods=['GET', 'POST'])
+def new_plant_list(username):
+    """Renders form to create new plant list. Handles form submission."""
+    if not username_match(username):
+        flash("Not authorized.", "warning")
+        return redirect('/')
+    
+    form = NewPlantListForm()
+    
+    # Something about this block is not working...
+    growing_areas = g.user.growing_areas
+    if growing_areas:
+        growing_area_names = [(area.id, area.name) for area in growing_areas]
+    form.growing_area.choices = growing_area_names
+    raise
+
+    if form.validate_on_submit():
+        try:
+            plant_list = PlantList(
+                user_id = session[CURR_USER_KEY],
+                name = form.name.data,
+                description = form.description.data,
+                growing_area = form.growing_area.data
+            )
+            db.session.add(plant_list)
+            db.session.commit()
+
+        except IntegrityError:
+            flash("Sorry, something went wrong.", 'warning')
+            if g.user:
+                return redirect("/{g.user.username}/garden")
+            else:
+                return redirect("/")
+        
+        flash("Successfully created new plant list!", "success")
+        return redirect(f"/{g.user.username}/garden")
+
+    
+    return render_template("plant-lists/new-plant-list.html", form=form)
+
+
+# TODO: All of these
 
 # Add Plant to List
-#### /{{g.user.username}}/add-plant
+# /{{g.user.username}}/plant-list/id/add-plant
 
 # Delete Plant from List
+# username/plant-list/id/delete-plant
 
 # Assign List to Growing/Planting Area
-
+# username/plant-list/id/add-plant
 
