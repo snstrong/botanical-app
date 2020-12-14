@@ -295,13 +295,16 @@ def new_plant_list(username):
     if growing_areas:
         growing_area_names = [(area.id, area.name) for area in growing_areas]
         growing_area_names.insert(0, ("0", "(none)"))
-        form.growing_area.choices = growing_area_names
     else:
         growing_area_names = [("0", "(none)")]
+    form.growing_area.choices = growing_area_names
+
 
    # TODO: check for edge case (User already has plant list with same name)
+   # TODO: check if growing area is 0
 
     if form.validate_on_submit():
+            
         try:
             plant_list = PlantList(
                 user_id = int(session[CURR_USER_KEY]),
