@@ -25,6 +25,28 @@ nav {
   background-color: #bae357;
 }
 
+.page-title {
+  font-weight: 400;
+}
+
+#garden-owner {
+  color: #368e50;
+}
+
+.growing-area-card,
+.plant-list-card {
+  border: 1px solid #bae357 !important;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.growing-area-card {
+  width: 24rem;
+}
+
+.plant-list-card {
+  width: 18rem;
+}
+
 .search-result-header {
   font-weight: 200;
 }

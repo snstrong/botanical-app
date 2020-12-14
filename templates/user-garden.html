@@ -2,7 +2,8 @@
 {% block title %}Garden | Tendril{% endblock %}
 
 {% block content %}
-<h2>Garden <i class="fab fa-pagelines" style="color: #bae357;"></i> for <em style="color: #368e50;">{{username}}</em>
+<h2 class="page-title">Garden <i class="fab fa-pagelines" style="color: #bae357;"></i> for <em class="page-title"
+        id="garden-owner">{{username}}</em>
 </h2>
 <hr>
 <section class="float-left mr-6">
@@ -13,8 +14,7 @@
     </div>
     <div style="clear: both;">
         {% for area in growing_areas %}
-        <div class="card float-left mr-3 mb-3"
-            style="width: 24rem; border: 1px solid  #bae357; background-color: rgba(255,255,255, 0.6);">
+        <div class="card float-left mr-3 mb-3 growing-area-card">
             <div class="p-3">
                 <h4 class="card-title m-0 p-0">{{area.name}}
                 </h4>
@@ -40,15 +40,16 @@
     </div>
     <div style="clear: both;">
         {% for plist in plant_lists %}
-        <div class="card float-left mr-3 mb-3"
-            style="width: 16rem; border: 1px solid  #bae357; background-color: rgba(255,255,255, 0.6);">
-            <div class="p-3">
-                <h4 class="card-title m-0 p-0">{{plist.name}}
-                </h4>
-                <ul class="card-body mt-0">
-                    <li><strong>Description: </strong>{{plist.description}}</li>
-                </ul>
+        <div class="card float-left mr-3 mb-3 p-3 plant-list-card">
+            <div>
+                <h4 class="card-title m-0 p-0">{{plist.name}}</h4>
+                {% if plist.description %}
+                <small>{{plist.description}}</small>
+                {% endif %}
             </div>
+            {% if plist.growing_area %}
+            <p><strong>Planting Area: </strong>{{plist.growing_area}}</p>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

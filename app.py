@@ -215,6 +215,10 @@ def show_garden_page(username):
     this_user = User.query.filter_by(username=username).first_or_404()
     growing_areas = GrowingArea.query.filter_by(user_id=this_user.id).all()
     plant_lists = PlantList.query.filter_by(user_id=this_user.id).all()
+    for p_list in plant_lists:
+        if p_list.growing_area:
+                growing_area = GrowingArea.query.get_or_404(p_list.growing_area)
+                p_list.growing_area = growing_area.name
     return render_template("user-garden.html", growing_areas=growing_areas, plant_lists=plant_lists, username=username)
 
 #############################################################
