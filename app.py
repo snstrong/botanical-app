@@ -214,7 +214,8 @@ def show_account_info(username):
 def show_garden_page(username):
     this_user = User.query.filter_by(username=username).first_or_404()
     growing_areas = GrowingArea.query.filter_by(user_id=this_user.id).all()
-    return render_template("user-garden.html", growing_areas=growing_areas, username=username)
+    plant_lists = PlantList.query.filter_by(user_id=this_user.id).all()
+    return render_template("user-garden.html", growing_areas=growing_areas, plant_lists=plant_lists, username=username)
 
 #############################################################
 # Growing Area Routes
