@@ -8,9 +8,20 @@
 {% if plant_list.description %}
 <p>{{plant_list.description}}</p>
 {% endif %}
-{% if plant_list.growing_area %}
+{% if growing_area_name %}
 <h4 class="mt-2">Planting Area</h4>
-<p>{{plant_list.growing_area}}</p>
+<p>{{growing_area_name}}</p>
 {% endif %}
+
+<h4 class="mt-2">Plants</h4>
+<ul>
+    {% for plant in plant_list.plants %}
+    <!-- TODO: Link to plant page -->
+    <!-- TODO: Show image of plant -->
+    <!-- TODO: Re-do as cards -->
+    <li>{{plant.scientific_name}}</li>
+    {% endfor %}
+</ul>
+
 
 {% endblock %}

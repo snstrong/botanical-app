@@ -111,18 +111,18 @@ def get_plant_detail(plant_slug):
         # Check to see if user has existing plant lists and populate select choices accordingly"""
         if g.user.plant_lists:
             plant_lists = [(list.id, list.name) for list in g.user.plant_lists]
-            plant_lists.append(("new", "Create New List"))
+            plant_lists.append(("0", "Create New List"))
             add_plant_form.plant_list.choices = plant_lists
         else:
-            add_plant_form.plant_list.choices = [("new", "Create New List")]
+            add_plant_form.plant_list.choices = [("0", "Create New List")]
         # Pass along data about plant in hidden fields
-        add_plant_form.plant_id = plant_details["data"]["id"]
-        add_plant_form.plant_slug = plant_details["data"]["slug"]
-        add_plant_form.plant_scientific_name = plant_details["data"]["scientific_name"]
+        add_plant_form.plant_id.data = plant_details["data"]["id"]
+        add_plant_form.plant_slug.data = plant_details["data"]["slug"]
+        add_plant_form.plant_scientific_name.data = plant_details["data"]["scientific_name"]
         if plant_details["data"]["image_url"]:
-            add_plant_form.plant_image_url = plant_details["data"]["image_url"]
+            add_plant_form.plant_image_url.data = plant_details["data"]["image_url"]
         else:
-            add_plant_form.plant_image_url = "/static/images/thumbnail_default.png"
+            add_plant_form.plant_image_url.data = "/static/images/thumbnail_default.png"
         return render_template('plant-detail.html', plant_details=plant_details, form=add_plant_form)
     
     return render_template('plant-detail.html', plant_details=plant_details)
@@ -298,7 +298,6 @@ def new_plant_list(username):
    # TODO: check for edge case (User already has plant list with same name)
 
     if form.validate_on_submit():   
-        print("WE GOT THERE, LOOK AT ME LOOK AT ME")    
         db.session.rollback()
         try:
             plant_list = PlantList(
@@ -334,11 +333,61 @@ def show_plant_list(username, plant_list_id):
     plant_list = PlantList.query.get_or_404(plant_list_id)
     if plant_list.growing_area:
         growing_area = GrowingArea.query.get_or_404(plant_list.growing_area)
-        plant_list.growing_area = growing_area.name
-    return render_template('/plant-lists/plant-list-detail.html', plant_list=plant_list, username=username)
+        growing_area_name = growing_area.name
+    return render_template('/plant-lists/plant-list-detail.html', plant_list=plant_list, username=username, growing_area_name=growing_area_name)
 
 # Add Plant to List
-# /{{g.user.username}}/plant-list/add-plant
+@app.route('/<username>/plant-list/add-plant', methods=['POST'])
+def add_plant_to_list(username):
+    if not username_match(username):
+        flash("Not authorized.", "warning")
+        redirect("/")
+    
+    form = AddPlantForm(request.form)
+    form.plant_id.data = int(form.plant_id.data)
+    print("Plant ID", form.plant_id.data)
+    print("Plant slug", form.plant_slug.data)
+    print("Plant scientific name", form.plant_scientific_name.data)
+
+    # TODO: TypeError: 'NoneType' object is not iterable. But if you look at form, all of the necessary data is there. This error only happens when the form is validated, like so:
+    # if form.validate_on_submit():
+    # The error goes away if we change it to the following:
+    if form:   
+    
+        db.session.rollback()
+        try:
+            # Check to see if plant is already in plants table
+            # If not, add it to plants table 
+            plant = None
+            if Plant.query.get(form.plant_id.data):
+                plant = Plant.query.get(form.plant_id.data)
+            else:
+                plant = Plant(
+                    id = form.plant_id.data,
+                    slug = form.plant_slug.data,
+                    scientific_name = form.plant_scientific_name.data,
+                    image_url = form.plant_image_url.data
+                )
+            db.session.add(plant)
+            db.session.commit()
+
+            # Add plant and plant list to join table
+            plant_on_list = PlantList_Plants(
+                plant_list_id = form.plant_list.data,
+                plant_id = plant.id
+            )
+            db.session.add(plant_on_list)
+            db.session.commit()
+            flash(f"Plant successfully added to list!")
+
+        except IntegrityError:
+            flash("Sorry, something went wrong.", 'warning')
+            if g.user:
+                return redirect(f"/{g.user.username}/garden")
+            else:
+                return redirect("/")
+    return redirect(f"/{g.user.username}/garden")
+    
 
 # Delete Plant from List
 # /username/plant-list/id/delete-plant
