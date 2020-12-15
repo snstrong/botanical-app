@@ -334,7 +334,10 @@ def show_plant_list(username, plant_list_id):
     if plant_list.growing_area:
         growing_area = GrowingArea.query.get_or_404(plant_list.growing_area)
         growing_area_name = growing_area.name
-    return render_template('/plant-lists/plant-list-detail.html', plant_list=plant_list, username=username, growing_area_name=growing_area_name)
+        return render_template('/plant-lists/plant-list-detail.html', plant_list=plant_list, username=username, growing_area_name=growing_area_name)
+    else:
+        return render_template('/plant-lists/plant-list-detail.html', plant_list=plant_list, username=username)
+        
 
 # Add Plant to List
 @app.route('/<username>/plant-list/add-plant', methods=['POST'])
