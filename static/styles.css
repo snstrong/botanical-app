@@ -26,7 +26,7 @@ nav {
 }
 
 .page-title {
-  font-weight: 400;
+  font-weight: 600;
 }
 
 #garden-owner {
@@ -87,10 +87,13 @@ nav {
   width: 300px;
   height: auto;
   float: left;
-  clear: both;
   border: 1px solid #bae357;
 }
 
 .italic {
   font-style: italic;
+}
+
+.breadcrumbs {
+  font-weight: 600;
 }

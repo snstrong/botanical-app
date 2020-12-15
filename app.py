@@ -39,12 +39,10 @@ def add_user_to_g():
     else:
         g.user = None
 
-
 def do_login(user):
     """Log in user."""
 
     session[CURR_USER_KEY] = user.id
-
 
 def do_logout():
     """Logout user."""
@@ -67,7 +65,6 @@ def username_match(username):
     else:
         if g_user.username == username:
             return True
-
 
 #############################################################
 # General Routes
@@ -170,7 +167,6 @@ def signup():
     else:
         return render_template('register.html', form=form)
 
-
 @app.route('/login', methods=["GET", "POST"])
 def login():
     """Handle user login."""
@@ -189,7 +185,6 @@ def login():
         flash("Invalid credentials.", 'danger')
 
     return render_template('login.html', form=form)
-
 
 @app.route('/logout')
 def logout():
@@ -281,10 +276,6 @@ def delete_growing_area(username, growing_area):
 # Plant List Routes
 #############################################################
 
-# TODO: fix choices problem with select. check other project that generated choices for select field in app.py (database dj????)
-
-# Create Plant List
-# 
 @app.route('/<username>/new-plant-list', methods=['GET', 'POST'])
 def new_plant_list(username):
     """Renders form to create new plant list. Handles form submission."""
@@ -335,12 +326,23 @@ def new_plant_list(username):
 
 # TODO: All of these
 
+# Show plant list
+# /username/plant-list/plant-list-id
+
+@app.route('/<username>/plant-list/<int:plant_list_id>')
+def show_plant_list(username, plant_list_id):
+    plant_list = PlantList.query.get_or_404(plant_list_id)
+    if plant_list.growing_area:
+        growing_area = GrowingArea.query.get_or_404(plant_list.growing_area)
+        plant_list.growing_area = growing_area.name
+    return render_template('/plant-lists/plant-list-detail.html', plant_list=plant_list, username=username)
+
 # Add Plant to List
-# /{{g.user.username}}/plant-list/id/add-plant
+# /{{g.user.username}}/plant-list/add-plant
 
 # Delete Plant from List
-# username/plant-list/id/delete-plant
+# /username/plant-list/id/delete-plant
 
 # Assign List to Growing/Planting Area
-# username/plant-list/id/add-plant
+# /username/plant-list/id/add-plant
 

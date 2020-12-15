@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{{plant_list.name}} | Plant List | Tendril{% endblock %}
+
+{% block content %}
+<p class="text-info breadcrumbs"><a class="text-info" href="/{{username}}/garden">{{username}}</a> > Plant Lists >
+    {{plant_list.name}} </p>
+<h2><span class="page-title">{{plant_list.name}}</span> <i class="fab fa-pagelines" style="color: #bae357;"></i></h2>
+{% if plant_list.description %}
+<p>{{plant_list.description}}</p>
+{% endif %}
+{% if plant_list.growing_area %}
+<h4 class="mt-2">Planting Area</h4>
+<p>{{plant_list.growing_area}}</p>
+{% endif %}
+
+{% endblock %}

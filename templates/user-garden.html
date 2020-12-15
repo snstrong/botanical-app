@@ -42,7 +42,8 @@
         {% for plist in plant_lists %}
         <div class="card float-left mr-3 mb-3 p-3 plant-list-card">
             <div class="card-body">
-                <h4 class="card-title m-0 p-0">{{plist.name}}</h4>
+                <h4 class="card-title m-0 p-0"><a href="/{{username}}/plant-list/{{plist.id}}"
+                        class="text-info">{{plist.name}}</a></h4>
                 {% if plist.description %}
                 <small class="card-subtitle text-muted">{{plist.description}}</small>
                 {% endif %}
