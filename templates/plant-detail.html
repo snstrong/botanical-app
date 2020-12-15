@@ -3,35 +3,44 @@
 
 {% block content %}
 <!-- TODO: breadcrumbs or "back to search results" -->
+<header class="mb-3">
+    {% if plant_details.data.image_url %}
+    <img src="{{plant_details.data.image_url}}" alt="Photo of {{plant_details.data.common_name}}"
+        style="width: 500px; float: left; margin-right: 1em; margin-bottom: 1em;">
+    {% endif %}
 
-{% if plant_details.data.image_url %}
-<img src="{{plant_details.data.image_url}}" alt="Photo of {{plant_details.data.common_name}}"
-    style="width: 500px; float: left; margin-right: 1em; margin-bottom: 1em;">
-{% endif %}
-<header>
     <h1 class="text-info">{{plant_details.data.common_name}}</h1>
-    <h3 class="text-muted scientific-name">{{plant_details.data.scientific_name}}</h3>
+    <h3 class="text-muted scientific-name">{{plant_details.data.scientific_name}}
+    </h3>
 </header>
 
+<section>
+    <div class="mb-3 mt-3">
+        <h3>Family</h3>
+        <p><span class="scientific-name">{{ plant_details.data.family
+                }}</span>
+            ({{ plant_details.data.family_common_name }})</p>
+    </div>
+    <div class="mb-3 mt-3">
+        <h3>Common Names</h3>
+        <p>
+            {{ plant_details.data.common_names.eng|join(", ") }}
+        </p>
+    </div>
+</section>
+
 {% if g.user %}
-<div class="float-left mb-3">
-    <h5>Add to a Plant List</h5>
-    <form method="POST" action="/{{g.user.username}}/add-plant">
+<section class="float-left mb-3 mt-3 mr-3 p-3 rounded" id="add-plant-form">
+    <h3 class="">Add to a Plant List</h3>
+    <form class="form" method="POST" action="/{{g.user.username}}/add-plant">
         <!-- TODO: customize form for this page; get rid of unnecessary label -->
         {% include "base-form.html" %}
         <button class="btn btn-info btn-small">Add</button>
     </form>
-</div>
-
+</section>
 {% endif %}
 
-<div class="mb-3" id="common-names-list">
-    <h3>Common Names</h3>
-    <div>
-        {{ plant_details.data.common_names.eng|join(", ") }}
-    </div>
-</div>
-<div id="external-sources">
+<section class="mb-3 mt-3 float-left">
     <h3>External Sources</h3>
     <ul style="list-style-type: none; padding: 0;">
         {% for source in plant_details.data.sources %}
@@ -40,6 +49,10 @@
         </li>
         {% endfor%}
     </ul>
-</div>
+</section>
+
+
+
+
 
 {% endblock %}

@@ -113,11 +113,11 @@ def get_plant_detail(plant_slug):
         add_plant_form = AddPlantForm()
         # Check to see if user has existing plant lists and populate select choices accordingly"""
         if g.user.plant_lists:
-            plant_lists = [list.name for list in g.user.plant_lists]
-            plant_lists.append("Create New List")
+            plant_lists = [(list.id, list.name) for list in g.user.plant_lists]
+            plant_lists.append(("new", "Create New List"))
             add_plant_form.plant_list.choices = plant_lists
         else:
-            add_plant_form.plant_list.choices = ["Create New List"]    
+            add_plant_form.plant_list.choices = [("new", "Create New List")]
         # Pass along data about plant in hidden fields
         add_plant_form.plant_id = plant_details["data"]["id"]
         add_plant_form.plant_slug = plant_details["data"]["slug"]

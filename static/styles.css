@@ -82,6 +82,15 @@ nav {
   font-style: italic;
 }
 
+#add-plant-form {
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 300px;
+  height: auto;
+  float: left;
+  clear: both;
+  border: 1px solid #bae357;
+}
+
 .italic {
   font-style: italic;
 }
