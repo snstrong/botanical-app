@@ -130,6 +130,8 @@ class GrowingArea(db.Model):
 class Plant(db.Model):
     __tablename__ = "plants"
 
+    # TODO: ADD COMMON NAME(S)
+
     id = db.Column(
         db.Integer,
         primary_key = True
@@ -149,7 +151,7 @@ class Plant(db.Model):
 
 class PlantList(db.Model):
     __tablename__ = "plant_lists"
-    
+
     id = db.Column(
         db.Integer,
         primary_key=True

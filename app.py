@@ -108,7 +108,10 @@ def get_plant_detail(plant_slug):
 
     if g.user:
         add_plant_form = AddPlantForm()
-        # Check to see if user has existing plant lists and populate select choices accordingly"""
+        
+        # TODO: if user selects "Create New List," show input for new name (use JS for this?, update forms.py w/ input field and use JS to toggle display)
+
+        # Check to see if user has existing plant lists and populate select choices accordingly
         if g.user.plant_lists:
             plant_lists = [(list.id, list.name) for list in g.user.plant_lists]
             plant_lists.append(("0", "Create New List"))
@@ -322,12 +325,6 @@ def new_plant_list(username):
 
     return render_template("plant-lists/new-plant-list.html", form=form)
 
-
-# TODO: All of these
-
-# Show plant list
-# /username/plant-list/plant-list-id
-
 @app.route('/<username>/plant-list/<int:plant_list_id>')
 def show_plant_list(username, plant_list_id):
     plant_list = PlantList.query.get_or_404(plant_list_id)
@@ -338,7 +335,6 @@ def show_plant_list(username, plant_list_id):
     else:
         return render_template('/plant-lists/plant-list-detail.html', plant_list=plant_list, username=username)
         
-
 # Add Plant to List
 @app.route('/<username>/plant-list/add-plant', methods=['POST'])
 def add_plant_to_list(username):
@@ -352,7 +348,7 @@ def add_plant_to_list(username):
     print("Plant slug", form.plant_slug.data)
     print("Plant scientific name", form.plant_scientific_name.data)
 
-    # TODO: TypeError: 'NoneType' object is not iterable. But if you look at form, all of the necessary data is there. This error only happens when the form is validated, like so:
+    # TODO: "TypeError: 'NoneType' object is not iterable" But if you look at form, all of the necessary data is there. This error only happens when the form is validated, like so:
     # if form.validate_on_submit():
     # The error goes away if we change it to the following:
     if form:   
@@ -391,6 +387,7 @@ def add_plant_to_list(username):
                 return redirect("/")
     return redirect(f"/{g.user.username}/garden")
     
+# TODO: Both of these
 
 # Delete Plant from List
 # /username/plant-list/id/delete-plant
