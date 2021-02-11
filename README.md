@@ -11,11 +11,11 @@
 * Searching for plants will display results that link to individual plant pages with more information about each species. Logged-in users can add plants to a list from individual plant pages
 
 ## Tech Stack
-Python/Flask back-end
-HTML5/CSS3 with Jinja and Bootstrap front-end
-Bcrypt for hashing and authentication
-PostgreSQL relational database with Flask-SQLAlchemy ORM
+* Python/Flask back-end
+* HTML5/CSS3 with Jinja and Bootstrap front-end
+* Bcrypt for hashing and authentication
+* PostgreSQL relational database with Flask-SQLAlchemy ORM
 
 This project uses data from the **Trefle global plants API**
-[https://trefle.io/](https://trefle.io/)
-GitHub: https://github.com/treflehq
+* [https://trefle.io/](https://trefle.io/)
+* GitHub: https://github.com/treflehq
