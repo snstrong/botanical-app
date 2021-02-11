@@ -15,6 +15,7 @@
 * HTML5/CSS3 with Jinja and Bootstrap front-end
 * Bcrypt for hashing and authentication
 * PostgreSQL relational database with Flask-SQLAlchemy ORM
+* Logo Design with Adobe Illustrator
 
 This project uses data from the **Trefle global plants API**
 * [https://trefle.io/](https://trefle.io/)
