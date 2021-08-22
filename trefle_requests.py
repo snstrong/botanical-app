@@ -1,10 +1,12 @@
-"""Functions for making requests to Trefle API."""
+"""Functions for making requests to Trefle API.
+Updated to use FloraCodex.
+"""
 import os
 import requests
 
 trefle_token = os.environ.get('TREFLE_TOKEN')
 
-BASE_URL = "https://trefle.io"
+BASE_URL = "https://api.floracodex.com"
 
 def quick_search(token, search_term):
     """Simple single-field search request. Returns JSON response as dict."""
